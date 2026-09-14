@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-group-client
+  labels:
+    app: cluster-group-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-group-client
+  template:
+    metadata:
+      labels:
+        app: cluster-group-client
+    spec:
+      containers:
+        - name: client
+          image: cluster-group-client:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: cluster-group-client-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
